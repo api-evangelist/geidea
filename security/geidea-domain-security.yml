@@ -1,0 +1,72 @@
+generated: '2026-07-12'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: geidea.net
+  https: true
+  tls_version: TLSv1.3
+  cert_issuer: DigiCert Global G2 TLS RSA SHA256 2020 CA1
+  cert_subject_o: GEIDEA TECHNOLOGY COMPANY
+  cert_expires: Oct 28 23:59:59 2026 GMT
+  http_status: 302
+  hsts: false
+- host: docs.geidea.net
+  https: true
+  tls_version: TLSv1.3
+  cert_issuer: Google Trust Services WE1
+  cert_expires: Oct  3 05:29:39 2026 GMT
+  http_status: 302
+  hsts: true
+  hsts_max_age: 31536000
+- host: api.ksamerchant.geidea.net
+  https: true
+  tls_version: TLSv1.2
+  cert_issuer: DigiCert Global G2 TLS RSA SHA256 2020 CA1
+  cert_subject_o: GEIDEA TECHNOLOGY COMPANY
+  cert_expires: Mar 10 23:59:59 2027 GMT
+  http_status: 401
+  hsts: true
+  hsts_max_age: 31536000
+  hsts_include_subdomains: true
+- host: api.merchant.geidea.net
+  https: true
+  tls_version: TLSv1.3
+  cert_issuer: DigiCert Global G2 TLS RSA SHA256 2020 CA1
+  cert_subject_o: GEIDEA TECHNOLOGY COMPANY
+  cert_expires: Oct 28 23:59:59 2026 GMT
+  http_status: 401
+  hsts: true
+  hsts_max_age: 31536000
+  hsts_include_subdomains: true
+- host: api.geidea.ae
+  https: true
+  tls_version: TLSv1.3
+  cert_issuer: DigiCert Global G2 TLS RSA SHA256 2020 CA1
+  cert_subject_o: GEIDEA TECHNOLOGY COMPANY
+  cert_expires: Jan 18 23:59:59 2027 GMT
+  http_status: 204
+  hsts: true
+  hsts_max_age: 31536000
+  hsts_include_subdomains: true
+  hsts_preload: true
+domains:
+- domain: geidea.net
+  dnssec: false
+  caa: []
+  spf: true
+  spf_record: v=spf1 ip4:193.122.85.214 ip4:178.20.148.109 ip4:176.241.190.146 -all
+  dmarc: true
+  dmarc_policy: reject
+- domain: geidea.ae
+  dmarc: true
+  dmarc_policy: reject
+notes: >-
+  All API hosts serve HTTPS with valid DigiCert certificates and enforce HSTS with
+  includeSubDomains; api.geidea.ae additionally sets preload. The unauthenticated
+  API hosts correctly return 401 (KSA, Egypt) or 204 (UAE ping) without credentials.
+  geidea.net root did not present an HSTS header on its redirect at probe time and
+  no CAA records were observed for geidea.net. api.ksamerchant.geidea.net negotiated
+  TLS 1.2 while the other hosts negotiated TLS 1.3.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

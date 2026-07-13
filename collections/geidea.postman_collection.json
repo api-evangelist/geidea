@@ -1,0 +1,139 @@
+{
+  "info": {
+    "name": "Geidea Payment Gateway API",
+    "description": "Confirmed, publicly documented endpoints for the Geidea Payment Gateway - Create Session, the Direct API 3-D Secure and Pay flow, transaction management (capture, void, refund, cancel, fetch), and tokenization. Authentication is HTTP Basic (Public Key as username, API Password as password) plus an HMAC request signature. Base host varies by region: https://api.ksamerchant.geidea.net (KSA), https://api.merchant.geidea.net (Egypt), https://api.geidea.ae (UAE). All calls must be server-to-server.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "basic",
+    "basic": [
+      { "key": "username", "value": "{{merchantPublicKey}}", "type": "string" },
+      { "key": "password", "value": "{{apiPassword}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.merchant.geidea.net", "type": "string" },
+    { "key": "merchantPublicKey", "value": "", "type": "string" },
+    { "key": "apiPassword", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Checkout",
+      "item": [
+        {
+          "name": "Create Session",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"amount\": 100.00,\n  \"currency\": \"SAR\",\n  \"timestamp\": \"7/12/2026 10:00:00 AM\",\n  \"merchantReferenceId\": \"order-0001\",\n  \"callbackUrl\": \"https://example.com/geidea/callback\",\n  \"signature\": \"\"\n}" },
+            "url": { "raw": "{{baseUrl}}/payment-intent/api/v2/direct/session", "host": ["{{baseUrl}}"], "path": ["payment-intent", "api", "v2", "direct", "session"] },
+            "description": "Creates a payment session for the hosted Geidea Checkout page or a Direct API flow. Signed with an HMAC signature."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Direct API",
+      "item": [
+        {
+          "name": "Initiate Authentication",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"sessionId\": \"\",\n  \"cardOnFile\": false,\n  \"paymentMethod\": {}\n}" },
+            "url": { "raw": "{{baseUrl}}/pgw/api/v6/direct/authenticate/initiate", "host": ["{{baseUrl}}"], "path": ["pgw", "api", "v6", "direct", "authenticate", "initiate"] },
+            "description": "Starts 3-D Secure authentication for a card within a session."
+          }
+        },
+        {
+          "name": "Authenticate Payer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"sessionId\": \"\",\n  \"threeDSecureId\": \"\"\n}" },
+            "url": { "raw": "{{baseUrl}}/pgw/api/v6/direct/authenticate/payer", "host": ["{{baseUrl}}"], "path": ["pgw", "api", "v6", "direct", "authenticate", "payer"] },
+            "description": "Completes 3-D Secure payer authentication and returns a threeDSecureId."
+          }
+        },
+        {
+          "name": "Pay",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"sessionId\": \"\",\n  \"orderId\": \"\",\n  \"threeDSecureId\": \"\",\n  \"paymentMethod\": {}\n}" },
+            "url": { "raw": "{{baseUrl}}/pgw/api/v2/direct/pay", "host": ["{{baseUrl}}"], "path": ["pgw", "api", "v2", "direct", "pay"] },
+            "description": "Processes a card payment against an authenticated session."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transaction Management",
+      "item": [
+        {
+          "name": "Capture Transaction",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"orderId\": \"\",\n  \"amount\": 100.00,\n  \"currency\": \"SAR\",\n  \"signature\": \"\"\n}" },
+            "url": { "raw": "{{baseUrl}}/pgw/api/v1/direct/capture", "host": ["{{baseUrl}}"], "path": ["pgw", "api", "v1", "direct", "capture"] },
+            "description": "Captures a previously authorized transaction, in full or in part."
+          }
+        },
+        {
+          "name": "Void Payment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"orderId\": \"\",\n  \"reason\": \"\"\n}" },
+            "url": { "raw": "{{baseUrl}}/pgw/api/v3/direct/void", "host": ["{{baseUrl}}"], "path": ["pgw", "api", "v3", "direct", "void"] },
+            "description": "Voids an authorization that has not yet been captured."
+          }
+        },
+        {
+          "name": "Refund - Full or Partial",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"orderId\": \"\",\n  \"amount\": 100.00,\n  \"currency\": \"SAR\",\n  \"signature\": \"\"\n}" },
+            "url": { "raw": "{{baseUrl}}/pgw/api/v2/direct/refund", "host": ["{{baseUrl}}"], "path": ["pgw", "api", "v2", "direct", "refund"] },
+            "description": "Refunds a captured/settled transaction in full or in part. Signed with an HMAC signature."
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"orderId\": \"\",\n  \"reason\": \"\"\n}" },
+            "url": { "raw": "{{baseUrl}}/pgw/api/v1/direct/cancel", "host": ["{{baseUrl}}"], "path": ["pgw", "api", "v1", "direct", "cancel"] },
+            "description": "Cancels an order that has not completed payment."
+          }
+        },
+        {
+          "name": "Fetch Transaction or Order",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/pgw/api/v1/direct/order/:orderId", "host": ["{{baseUrl}}"], "path": ["pgw", "api", "v1", "direct", "order", ":orderId"], "variable": [{ "key": "orderId", "value": "" }] },
+            "description": "Retrieves the details and status of a transaction or order by id."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tokenization",
+      "item": [
+        {
+          "name": "Retrieve Token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/pgw/api/v1/direct/token/:tokenId", "host": ["{{baseUrl}}"], "path": ["pgw", "api", "v1", "direct", "token", ":tokenId"], "variable": [{ "key": "tokenId", "value": "" }] },
+            "description": "Retrieves a stored payment instrument (card on file) token by id."
+          }
+        }
+      ]
+    }
+  ]
+}

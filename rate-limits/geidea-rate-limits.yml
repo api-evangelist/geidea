@@ -1,0 +1,52 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Geidea
+providerId: geidea
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Payments
+- Payment Gateway
+- Rate Limiting
+- Quotas
+description: >-
+  Geidea does not publish fixed numeric rate limits for the Payment Gateway API in
+  its public developer documentation. As a regulated payments platform, request
+  throughput and anti-fraud velocity controls are applied per merchant account at
+  the gateway and are not exposed as public per-minute quotas. Practical throughput
+  is governed by the merchant's onboarding profile, risk controls, and the acquiring
+  bank / scheme limits rather than by a documented developer rate cap.
+notes: >-
+  No numeric per-account or per-endpoint request-rate limits are documented as of
+  the review date. Clients should implement retries with exponential backoff and
+  idempotent handling keyed on the merchant reference id, and confirm any velocity
+  or volume limits directly with Geidea during onboarding.
+sources:
+- https://docs.geidea.net/docs/overview
+- https://docs.geidea.net/docs/pre-requisites
+- https://docs.geidea.net/docs/troubleshooting-faqs
+responseCodes:
+  throttled: 429
+limits:
+- name: Payment Gateway API Requests
+  scope: merchant
+  metric: requests
+  limit: not published
+  notes: No fixed numeric request-rate limit is documented for the Payment Gateway API.
+- name: Transaction Velocity
+  scope: merchant
+  metric: transactions
+  limit: risk-based
+  notes: Anti-fraud velocity and volume controls are applied per merchant profile, not published as a developer quota.
+policies:
+- name: Server-to-Server Only
+  description: Direct API calls must be made from the merchant backend; the API password must never be exposed in a front-end.
+- name: Backoff and Retry
+  description: Clients should use exponential backoff with jitter on transient errors and honor any Retry-After header on 429 responses.
+- name: Idempotency by Reference
+  description: Use a unique merchantReferenceId per order so retried requests can be reconciled and duplicate charges avoided.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

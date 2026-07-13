@@ -1,0 +1,107 @@
+aid: geidea
+name: Geidea
+review:
+  question: Does Geidea expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-12'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Geidea's public developer surface is
+    request/response REST over HTTPS. Asynchronous payment results are delivered
+    to merchants via webhook (callback) notifications - Geidea makes an outbound
+    HTTP POST to a merchant-supplied callbackUrl - which is server-to-endpoint
+    HTTP, not a server-push transport on Geidea's own API. There is no documented
+    WebSocket (wss://) or Server-Sent Events surface on Geidea's API to model, so
+    no AsyncAPI file was created.
+findings:
+  summary: |
+    Geidea does not publish a documented public WebSocket API. Geidea is a
+    Saudi-headquartered payments platform serving merchants in KSA, Egypt, and the
+    UAE. Its Payment Gateway is a REST API over HTTPS with three region-specific
+    base hosts: https://api.ksamerchant.geidea.net (KSA),
+    https://api.merchant.geidea.net (Egypt), and https://api.geidea.ae (UAE).
+    Merchants create a payment session and either render the hosted Geidea Checkout
+    (HPP) page or drive the server-to-server Direct API (3-D Secure initiate /
+    authenticate payer / pay) themselves. Authentication is HTTP Basic (merchant
+    Public Key as username, API Password as password) plus an HMAC-SHA256 request
+    signature. Asynchronous outcomes are delivered by webhook/callback POSTs, not by
+    a WebSocket. No realtime, bidirectional, or streaming WebSocket (ws:// or wss://)
+    endpoint is documented anywhere in the Geidea API reference as of the review date.
+  websocketPrecision: false
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.merchant.geidea.net
+      documented: true
+      note: Payment Gateway REST API. Region hosts also include api.ksamerchant.geidea.net (KSA) and api.geidea.ae (UAE).
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Payment results are delivered by outbound HTTP POST to a merchant callbackUrl (callback/webhook notifications). Server-to-endpoint HTTP, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in Geidea's API reference or product pages as of the review date.
+  authentication: |
+    HTTP Basic authentication - merchant Public Key as username, API Password as
+    password - combined with a per-request HMAC-SHA256 signature (Base64-encoded,
+    keyed by the API Password). All Direct API calls must be made server-to-server;
+    the API Password must never be exposed in a front-end.
+  endpointsConfirmedRest:
+    - POST https://api.merchant.geidea.net/payment-intent/api/v2/direct/session
+    - POST https://api.merchant.geidea.net/pgw/api/v6/direct/authenticate/initiate
+    - POST https://api.merchant.geidea.net/pgw/api/v6/direct/authenticate/payer
+    - POST https://api.merchant.geidea.net/pgw/api/v2/direct/pay
+    - POST https://api.merchant.geidea.net/pgw/api/v1/direct/capture
+    - POST https://api.merchant.geidea.net/pgw/api/v3/direct/void
+    - POST https://api.merchant.geidea.net/pgw/api/v2/direct/refund
+    - POST https://api.merchant.geidea.net/pgw/api/v1/direct/cancel
+    - GET  https://api.merchant.geidea.net/pgw/api/v1/direct/order/{orderId}
+    - GET  https://api.merchant.geidea.net/pgw/api/v1/direct/token/{tokenId}
+  endpointsDocumentedNotModeled:
+    - Pay by Link (create / update / fetch / delete / send by email or SMS) - documented at docs.geidea.net/reference, exact paths not modeled in this repo's OpenAPI.
+    - Pay by Invoice (create / update / fetch / delete / send) - documented at docs.geidea.net/reference, exact paths not modeled in this repo's OpenAPI.
+    - Apple Pay Direct API, Meeza QR (create QR / request to pay), Merchant Initiated Transactions, and Subscriptions - documented Geidea products not modeled in this repo's OpenAPI.
+  modeledSchemaNote: |
+    Endpoint paths and HTTP methods in openapi/geidea-openapi.yml are confirmed
+    from the Geidea API reference. The request and response bodies are
+    representative models grounded in that reference, not copied verbatim from an
+    official Geidea OpenAPI file, and should be reconciled against the live docs
+    before production use.
+sources:
+  - url: https://docs.geidea.net/docs/overview
+    type: Documentation
+    note: Product overview - Checkout vs Direct API; MENA regions.
+  - url: https://docs.geidea.net/docs/pg-direct-api
+    type: Documentation
+    note: Direct API integration flow (session, initiate authentication, authenticate payer, pay). Server-to-server, PCI-DSS required.
+  - url: https://docs.geidea.net/docs/pre-requisites
+    type: Documentation
+    note: Authentication credentials - Public Key and API Password via HTTP Basic; API password is secret.
+  - url: https://docs.geidea.net/reference/create-session-v2-1
+    type: APIReference
+    note: Create Session POST /payment-intent/api/v2/direct/session; signature field; servers for KSA, Egypt, UAE.
+  - url: https://docs.geidea.net/reference/pay-v-2
+    type: APIReference
+    note: Pay POST /pgw/api/v2/direct/pay; HTTP Basic security scheme.
+  - url: https://docs.geidea.net/reference/refund-1-1
+    type: APIReference
+    note: Refund POST /pgw/api/v2/direct/refund; capture v1, void v3, cancel v1, fetch order, retrieve token confirmed alongside.
+  - url: https://docs.geidea.net/docs/sample-callback-responses
+    type: Documentation
+    note: Webhook/callback notifications - outbound HTTP POST to merchant callbackUrl. No WebSocket.
+  - url: https://github.com/GeideaSolutions
+    type: SourceCode
+    note: Geidea mobile and plugin SDKs (Android, iOS, e-commerce plugins).
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Geidea's public API is request/response
+    REST over HTTPS with asynchronous results delivered by webhook/callback POSTs.
+    No AsyncAPI document was created because there is no server-push transport
+    (WebSocket or SSE) on Geidea's own API to model.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

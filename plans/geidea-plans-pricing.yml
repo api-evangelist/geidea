@@ -1,0 +1,84 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Geidea
+providerId: geidea
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Payments
+- Payment Gateway
+- MENA
+- Cards
+- Plans
+description: >-
+  Geidea does not publish public, self-serve API pricing tiers. The Payment
+  Gateway is sold to merchants through onboarding: a merchant applies, is
+  underwritten, and is issued gateway credentials (Public Key and API Password).
+  Cost to the merchant is a per-transaction Merchant Discount Rate (MDR) - and, for
+  some products, fixed per-transaction and settlement fees - negotiated per merchant
+  based on volume, sector, region (KSA, Egypt, UAE), card scheme (mada, Visa,
+  Mastercard), and payment method (cards, wallets, Meeza QR, BNPL). Integrating with
+  the API itself carries no separate metered API fee; you pay on payments processed.
+  Exact rates are commercial and are not reconciled here.
+notes: >-
+  There is no free/pro/enterprise API tier ladder to enumerate - pricing is a
+  negotiated per-transaction MDR set during merchant onboarding. Contact Geidea
+  sales or the merchant portal for a quote. Verify all rates directly with Geidea.
+sources:
+- https://www.geidea.net/ksa/en
+- https://docs.geidea.net/docs/pre-requisites
+- https://www.geidea.net/egy/en/solutions/payments/payment-gateway
+plans:
+- id: geidea-merchant-account
+  name: Merchant Account (Negotiated MDR)
+  type: usage
+  description: >-
+    Standard merchant onboarding. After approval the merchant receives Payment
+    Gateway credentials and is charged a per-transaction Merchant Discount Rate,
+    plus any applicable fixed per-transaction or settlement fees. Rates are
+    negotiated per merchant and vary by volume, region, scheme, and method.
+  entries:
+  - label: Per-Transaction Discount Rate
+    name: mdr
+    type: usage
+    metric: transaction
+    limit: -1
+    timeFrame: month
+    geo: MENA
+    unit: 1
+    price: negotiated per-transaction MDR (contact Geidea)
+    userMultiplied: false
+  elements:
+  - name: Geidea Checkout (HPP)
+  - name: Direct API
+  - name: Tokenization and Recurring
+  - name: Pay by Link
+  - name: Pay by Invoice
+  - name: Webhook Notifications
+- id: geidea-enterprise
+  name: Enterprise / Custom
+  type: enterprise
+  description: >-
+    Custom commercial terms for high-volume merchants and platforms - negotiated
+    MDR, settlement terms, dedicated support, and additional payment methods.
+    Contact Geidea.
+  entries:
+  - label: Custom Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: MENA
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Volume Pricing
+  - name: Dedicated Support
+  - name: Additional Payment Methods
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

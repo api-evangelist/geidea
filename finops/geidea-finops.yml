@@ -1,0 +1,95 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Geidea
+providerId: geidea
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Payments
+- Payment Gateway
+- MENA
+- Cards
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Geidea Payment Gateway spend. Unlike a metered developer API,
+  Geidea's cost model is transactional acquiring: the merchant pays a per-transaction
+  Merchant Discount Rate (MDR), plus any fixed per-transaction and settlement fees,
+  on payments processed through Checkout, the Direct API, Pay by Link, and Pay by
+  Invoice. Rates are negotiated per merchant and vary by volume, region (KSA, Egypt,
+  UAE), card scheme (mada, Visa, Mastercard), and payment method (cards, wallets,
+  Meeza QR, BNPL). There is no separate metered charge for calling the API; the unit
+  of cost is the payment transaction and its value.
+notes: >-
+  Per-transaction rates are commercial and not reconciled here. The dominant cost
+  driver is processed payment volume and mix, not API request count. Reconcile MDR,
+  fixed fees, chargeback fees, and settlement timing against your Geidea merchant
+  agreement.
+sources:
+- https://www.geidea.net/ksa/en
+- https://www.geidea.net/egy/en/solutions/payments/payment-gateway
+- https://docs.geidea.net/docs/overview
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Geidea
+serviceCategory: Payments and Financial Services
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: SAR
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: Geidea Payment Gateway
+  ServiceCategory: Payments and Financial Services
+  ProviderName: Geidea
+  PublisherName: Geidea
+  InvoiceIssuerName: Geidea
+  BillingCurrency: SAR
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: transaction_discount_rate
+  description: Per-transaction Merchant Discount Rate charged on processed payment value.
+  unit: percent_of_value
+  aggregation: sum
+  dimensions:
+  - merchant
+  - region
+  - scheme
+  - method
+- name: fixed_transaction_fee
+  description: Fixed per-transaction fee, where applicable, per successful payment.
+  unit: transactions
+  aggregation: sum
+  dimensions:
+  - merchant
+  - method
+- name: refund_chargeback_fee
+  description: Fees associated with refunds and chargebacks, where applicable.
+  unit: events
+  aggregation: sum
+  dimensions:
+  - merchant
+principles:
+- name: Visibility
+  description: Track processed volume, MDR, and fixed fees by region, scheme, and payment method to understand effective cost of acceptance.
+- name: Allocation
+  description: Tag transactions with a merchantReferenceId that maps to product line or channel so acquiring cost allocates to the right cost center.
+- name: Optimization
+  description: Route to lower-cost schemes and methods where possible (for example mada or Meeza QR), minimize refunds and chargebacks, and renegotiate MDR as volume grows.
+- name: Accountability
+  description: Reconcile the Geidea settlement statements monthly against processed transactions and expected MDR.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

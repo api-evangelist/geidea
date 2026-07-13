@@ -1,0 +1,130 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Geidea Payment Gateway API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{merchantPublicKey}}",
+      "password": "{{apiPassword}}"
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Checkout", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Create Session", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.merchant.geidea.net/payment-intent/api/v2/direct/session",
+            "body": { "type": "json", "data": "{\"amount\": 100.00, \"currency\": \"SAR\", \"timestamp\": \"7/12/2026 10:00:00 AM\", \"merchantReferenceId\": \"order-0001\", \"callbackUrl\": \"https://example.com/geidea/callback\", \"signature\": \"\"}" }
+          },
+          "docs": "Creates a payment session for the hosted Geidea Checkout page or a Direct API flow. Signed with an HMAC signature."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Direct API", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Initiate Authentication", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.merchant.geidea.net/pgw/api/v6/direct/authenticate/initiate",
+            "body": { "type": "json", "data": "{\"sessionId\": \"\", \"cardOnFile\": false, \"paymentMethod\": {}}" }
+          },
+          "docs": "Starts 3-D Secure authentication for a card within a session."
+        },
+        {
+          "info": { "name": "Authenticate Payer", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.merchant.geidea.net/pgw/api/v6/direct/authenticate/payer",
+            "body": { "type": "json", "data": "{\"sessionId\": \"\", \"threeDSecureId\": \"\"}" }
+          },
+          "docs": "Completes 3-D Secure payer authentication and returns a threeDSecureId."
+        },
+        {
+          "info": { "name": "Pay", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.merchant.geidea.net/pgw/api/v2/direct/pay",
+            "body": { "type": "json", "data": "{\"sessionId\": \"\", \"orderId\": \"\", \"threeDSecureId\": \"\", \"paymentMethod\": {}}" }
+          },
+          "docs": "Processes a card payment against an authenticated session."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Transaction Management", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Capture Transaction", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.merchant.geidea.net/pgw/api/v1/direct/capture",
+            "body": { "type": "json", "data": "{\"orderId\": \"\", \"amount\": 100.00, \"currency\": \"SAR\", \"signature\": \"\"}" }
+          },
+          "docs": "Captures a previously authorized transaction, in full or in part."
+        },
+        {
+          "info": { "name": "Void Payment", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.merchant.geidea.net/pgw/api/v3/direct/void",
+            "body": { "type": "json", "data": "{\"orderId\": \"\", \"reason\": \"\"}" }
+          },
+          "docs": "Voids an authorization that has not yet been captured."
+        },
+        {
+          "info": { "name": "Refund - Full or Partial", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.merchant.geidea.net/pgw/api/v2/direct/refund",
+            "body": { "type": "json", "data": "{\"orderId\": \"\", \"amount\": 100.00, \"currency\": \"SAR\", \"signature\": \"\"}" }
+          },
+          "docs": "Refunds a captured/settled transaction in full or in part. Signed with an HMAC signature."
+        },
+        {
+          "info": { "name": "Cancel Order", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.merchant.geidea.net/pgw/api/v1/direct/cancel",
+            "body": { "type": "json", "data": "{\"orderId\": \"\", \"reason\": \"\"}" }
+          },
+          "docs": "Cancels an order that has not completed payment."
+        },
+        {
+          "info": { "name": "Fetch Transaction or Order", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.merchant.geidea.net/pgw/api/v1/direct/order/:orderId",
+            "params": [
+              { "name": "orderId", "value": "", "type": "path", "description": "The Geidea order id." }
+            ]
+          },
+          "docs": "Retrieves the details and status of a transaction or order by id."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Tokenization", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Retrieve Token", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.merchant.geidea.net/pgw/api/v1/direct/token/:tokenId",
+            "params": [
+              { "name": "tokenId", "value": "", "type": "path", "description": "Token id of the stored instrument." }
+            ]
+          },
+          "docs": "Retrieves a stored payment instrument (card on file) token by id."
+        }
+      ]
+    }
+  ]
+}
