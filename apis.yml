@@ -163,6 +163,8 @@ apis:
     documented in the Geidea API reference; endpoint schemas are not modeled in the
     OpenAPI in this repository.
 common:
+- type: AgenticAccess
+  url: agentic-access/geidea-agentic-access.yml
 - type: DomainSecurity
   url: security/geidea-domain-security.yml
 - type: Authentication
