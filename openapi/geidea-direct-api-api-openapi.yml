@@ -1,0 +1,198 @@
+openapi: 3.0.3
+info:
+  title: Geidea Payment Gateway Checkout Direct API API
+  description: 'The Geidea Payment Gateway API lets merchants across the MENA region accept card and wallet payments. Merchants that are not PCI-DSS compliant create a payment session and render the hosted Geidea Checkout (HPP) page; PCI-DSS compliant merchants use the server-to-server Direct API to run 3-D Secure authentication and payment themselves. This document models the confirmed, publicly documented endpoints for the session, Direct card flow, transaction management, and tokenization surfaces.
+
+
+    Authentication is HTTP Basic - the merchant Public Key is the username and the API Password is the password - and requests additionally carry an HMAC request `signature` computed with the API Password as the secret key. All Direct API calls must be made server-to-server; the API password must never be exposed in a front-end.
+
+
+    Note on scope: request and response schemas below are representative models grounded in the Geidea API reference; field sets are illustrative and should be reconciled against the live documentation before production use. Pay by Link and Pay by Invoice are documented Geidea products but their request paths are not modeled here.'
+  version: '1.0'
+  contact:
+    name: Geidea
+    url: https://docs.geidea.net
+  x-modeled-note: Endpoint paths and HTTP methods are confirmed from the Geidea API reference (docs.geidea.net). Request/response bodies are representative and modeled, not copied verbatim from an official OpenAPI file.
+servers:
+- url: https://api.ksamerchant.geidea.net
+  description: Saudi Arabia (KSA) production
+- url: https://api.merchant.geidea.net
+  description: Egypt production
+- url: https://api.geidea.ae
+  description: UAE production
+security:
+- basicAuth: []
+tags:
+- name: Direct API
+  description: Server-to-server 3-D Secure authentication and card payment.
+paths:
+  /pgw/api/v6/direct/authenticate/initiate:
+    post:
+      operationId: initiateAuthentication
+      tags:
+      - Direct API
+      summary: Initiate Authentication
+      description: Starts 3-D Secure authentication for a card within an existing session, returning the data needed to challenge or frictionlessly authenticate the payer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitiateAuthenticationRequest'
+      responses:
+        '200':
+          description: Authentication initiation result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DirectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /pgw/api/v6/direct/authenticate/payer:
+    post:
+      operationId: authenticatePayer
+      tags:
+      - Direct API
+      summary: Authenticate Payer
+      description: Completes 3-D Secure payer authentication, returning a threeDSecureId that is passed to the Pay operation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticatePayerRequest'
+      responses:
+        '200':
+          description: Payer authentication result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DirectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /pgw/api/v2/direct/pay:
+    post:
+      operationId: pay
+      tags:
+      - Direct API
+      summary: Pay
+      description: Processes a card payment against an authenticated session. Requires the sessionId, an orderId (GUID), the threeDSecureId from Authenticate Payer, and the payment method / card details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayRequest'
+      responses:
+        '200':
+          description: Payment result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        responseCode:
+          type: string
+        responseMessage:
+          type: string
+        detailedResponseCode:
+          type: string
+        detailedResponseMessage:
+          type: string
+    OrderResponse:
+      type: object
+      properties:
+        responseCode:
+          type: string
+        responseMessage:
+          type: string
+        order:
+          type: object
+          properties:
+            orderId:
+              type: string
+            status:
+              type: string
+            amount:
+              type: number
+              format: double
+            currency:
+              type: string
+            merchantReferenceId:
+              type: string
+    PaymentMethod:
+      type: object
+      properties:
+        cardHolderName:
+          type: string
+        cardNumber:
+          type: string
+        expiryDate:
+          type: object
+          properties:
+            month:
+              type: integer
+            year:
+              type: integer
+        cvv:
+          type: string
+    PayRequest:
+      type: object
+      required:
+      - sessionId
+      - orderId
+      properties:
+        sessionId:
+          type: string
+        orderId:
+          type: string
+          description: Unique order identifier (GUID).
+        threeDSecureId:
+          type: string
+        paymentMethod:
+          $ref: '#/components/schemas/PaymentMethod'
+    AuthenticatePayerRequest:
+      type: object
+      required:
+      - sessionId
+      - threeDSecureId
+      properties:
+        sessionId:
+          type: string
+        threeDSecureId:
+          type: string
+        cardHolderResponseUrl:
+          type: string
+          format: uri
+    InitiateAuthenticationRequest:
+      type: object
+      required:
+      - sessionId
+      - cardOnFile
+      properties:
+        sessionId:
+          type: string
+        orderId:
+          type: string
+        paymentMethod:
+          $ref: '#/components/schemas/PaymentMethod'
+        cardOnFile:
+          type: boolean
+  responses:
+    Unauthorized:
+      description: Missing or invalid credentials or signature.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using the merchant Public Key as the username and the API Password as the password. Requests additionally carry an HMAC `signature` field computed with the API Password as the secret key.

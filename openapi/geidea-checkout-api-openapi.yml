@@ -1,0 +1,125 @@
+openapi: 3.0.3
+info:
+  title: Geidea Payment Gateway Checkout API
+  description: 'The Geidea Payment Gateway API lets merchants across the MENA region accept card and wallet payments. Merchants that are not PCI-DSS compliant create a payment session and render the hosted Geidea Checkout (HPP) page; PCI-DSS compliant merchants use the server-to-server Direct API to run 3-D Secure authentication and payment themselves. This document models the confirmed, publicly documented endpoints for the session, Direct card flow, transaction management, and tokenization surfaces.
+
+
+    Authentication is HTTP Basic - the merchant Public Key is the username and the API Password is the password - and requests additionally carry an HMAC request `signature` computed with the API Password as the secret key. All Direct API calls must be made server-to-server; the API password must never be exposed in a front-end.
+
+
+    Note on scope: request and response schemas below are representative models grounded in the Geidea API reference; field sets are illustrative and should be reconciled against the live documentation before production use. Pay by Link and Pay by Invoice are documented Geidea products but their request paths are not modeled here.'
+  version: '1.0'
+  contact:
+    name: Geidea
+    url: https://docs.geidea.net
+  x-modeled-note: Endpoint paths and HTTP methods are confirmed from the Geidea API reference (docs.geidea.net). Request/response bodies are representative and modeled, not copied verbatim from an official OpenAPI file.
+servers:
+- url: https://api.ksamerchant.geidea.net
+  description: Saudi Arabia (KSA) production
+- url: https://api.merchant.geidea.net
+  description: Egypt production
+- url: https://api.geidea.ae
+  description: UAE production
+security:
+- basicAuth: []
+tags:
+- name: Checkout
+  description: Create a payment session for the hosted Geidea Checkout page.
+paths:
+  /payment-intent/api/v2/direct/session:
+    post:
+      operationId: createSession
+      tags:
+      - Checkout
+      summary: Create Session
+      description: Creates a payment session used to launch the hosted Geidea Checkout (HPP) page or to begin a Direct API flow. The request is signed with an HMAC signature generated from the merchant public key, amount, currency, merchant reference id, and a timestamp.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSessionRequest'
+      responses:
+        '200':
+          description: The created session.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid credentials or signature.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    SessionResponse:
+      type: object
+      properties:
+        responseCode:
+          type: string
+        responseMessage:
+          type: string
+        session:
+          type: object
+          properties:
+            id:
+              type: string
+            expiryDate:
+              type: string
+    Error:
+      type: object
+      properties:
+        responseCode:
+          type: string
+        responseMessage:
+          type: string
+        detailedResponseCode:
+          type: string
+        detailedResponseMessage:
+          type: string
+    CreateSessionRequest:
+      type: object
+      required:
+      - amount
+      - currency
+      - timestamp
+      - merchantReferenceId
+      - signature
+      properties:
+        amount:
+          type: number
+          format: double
+          example: 100.0
+        currency:
+          type: string
+          example: SAR
+        timestamp:
+          type: string
+          example: 7/12/2026 10:00:00 AM
+        merchantReferenceId:
+          type: string
+          description: Merchant-generated unique reference for the order.
+        callbackUrl:
+          type: string
+          format: uri
+          description: Webhook URL to receive the payment result notification.
+        signature:
+          type: string
+          description: HMAC-SHA256 signature (Base64) generated from the merchant public key, amount, currency, merchant reference id, and timestamp, keyed by the API Password.
+        paymentOperation:
+          type: string
+          enum:
+          - Pay
+          - Authorize
+          - Preauthorize
+          example: Pay
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using the merchant Public Key as the username and the API Password as the password. Requests additionally carry an HMAC `signature` field computed with the API Password as the secret key.
