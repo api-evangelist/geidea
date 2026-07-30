@@ -12,7 +12,20 @@ description: Geidea is a Saudi-headquartered fintech and payments platform servi
   Pay, Meeza QR, and BNPL. Payments are authenticated with a merchant public key
   and API password over HTTP Basic auth plus an HMAC request signature, and
   results are delivered back to merchants via webhook (callback) notifications.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: enterprise
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Enterprise · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/geidea.png
 tags:
 - Payments
 - Payment Gateway
@@ -28,103 +41,6 @@ created: '2026-07-12'
 modified: '2026-07-12'
 specificationVersion: '0.19'
 apis:
-- aid: geidea:geidea-checkout-api
-  name: Geidea Checkout API
-  tags:
-  - Checkout
-  - Hosted Payment Page
-  - Session
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.geidea.net/docs/geidea-checkout-v2
-  baseURL: https://api.merchant.geidea.net
-  properties:
-  - url: https://docs.geidea.net/docs/geidea-checkout-v2
-    type: Documentation
-  - url: https://docs.geidea.net/reference/create-session-v2-1
-    type: APIReference
-  - url: openapi/geidea-openapi.yml
-    type: OpenAPI
-  - url: collections/geidea.postman_collection.json
-    type: PostmanCollection
-  - url: collections/geidea.opencollection.json
-    type: OpenCollection
-  description: Create a payment session with POST /payment-intent/api/v2/direct/session
-    and render the pre-built, hosted Geidea Checkout (HPP) page. The session is signed
-    with an HMAC signature so merchants that are not PCI-DSS compliant can collect
-    card and wallet payments without handling raw card data. Base host varies by
-    region - api.ksamerchant.geidea.net (KSA), api.merchant.geidea.net (Egypt), and
-    api.geidea.ae (UAE).
-- aid: geidea:geidea-direct-api
-  name: Geidea Direct API
-  tags:
-  - Direct API
-  - Cards
-  - 3D Secure
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.geidea.net/docs/pg-direct-api
-  baseURL: https://api.merchant.geidea.net
-  properties:
-  - url: https://docs.geidea.net/docs/pg-direct-api
-    type: Documentation
-  - url: https://docs.geidea.net/reference/pay-v-2
-    type: APIReference
-  - url: openapi/geidea-openapi.yml
-    type: OpenAPI
-  - url: collections/geidea.postman_collection.json
-    type: PostmanCollection
-  - url: collections/geidea.opencollection.json
-    type: OpenCollection
-  description: Server-to-server card acceptance for PCI-DSS-compliant merchants who
-    want full control of the checkout UI. The flow is Initiate Authentication (POST
-    /pgw/api/v6/direct/authenticate/initiate), Authenticate Payer (POST
-    /pgw/api/v6/direct/authenticate/payer) for 3-D Secure, then Pay (POST
-    /pgw/api/v2/direct/pay). All calls must be made from the merchant backend and
-    signed with the API password.
-- aid: geidea:geidea-tokenization-api
-  name: Geidea Tokenization API
-  tags:
-  - Tokenization
-  - Cards on File
-  - Recurring
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.geidea.net/docs/tokenization
-  baseURL: https://api.merchant.geidea.net
-  properties:
-  - url: https://docs.geidea.net/docs/tokenization
-    type: Documentation
-  - url: https://docs.geidea.net/reference/retrieve-token-1
-    type: APIReference
-  - url: openapi/geidea-openapi.yml
-    type: OpenAPI
-  description: Save cards on file and reuse them for recurring and merchant-initiated
-    transactions. Retrieve Token (GET /pgw/api/v1/direct/token/{tokenId}) returns a
-    stored instrument token; merchant-initiated transactions reuse the token with an
-    HMAC signature built from the merchant public key and the session id.
-- aid: geidea:geidea-transaction-management-api
-  name: Geidea Transaction Management API
-  tags:
-  - Refund
-  - Capture
-  - Void
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.geidea.net/docs/overview-1
-  baseURL: https://api.merchant.geidea.net
-  properties:
-  - url: https://docs.geidea.net/docs/overview-1
-    type: Documentation
-  - url: https://docs.geidea.net/reference/refund-1-1
-    type: APIReference
-  - url: openapi/geidea-openapi.yml
-    type: OpenAPI
-  - url: collections/geidea.postman_collection.json
-    type: PostmanCollection
-  - url: collections/geidea.opencollection.json
-    type: OpenCollection
-  description: Manage the lifecycle of an authorized transaction - Capture (POST
-    /pgw/api/v1/direct/capture), Void (POST /pgw/api/v3/direct/void), Refund full or
-    partial (POST /pgw/api/v2/direct/refund), Cancel Order (POST
-    /pgw/api/v1/direct/cancel), and Fetch Transaction or Order (GET
-    /pgw/api/v1/direct/order/{orderId}).
 - aid: geidea:geidea-pay-by-link-api
   name: Geidea Pay by Link API
   tags:
@@ -139,11 +55,11 @@ apis:
     type: Documentation
   - url: https://docs.geidea.net/reference/create-payment-link
     type: APIReference
-  description: Programmatically create, update, fetch, delete, and send (by email or
-    SMS) shareable payment links so customers can pay without a full storefront
-    integration. Available for Egypt and the UAE. Exact request paths are documented
-    in the Geidea API reference; endpoint schemas are not modeled in the OpenAPI in
-    this repository.
+  description: >-
+    Programmatically create, update, fetch, delete, and send (by email or SMS) shareable payment links
+    so customers can pay without a full storefront integration. Available for Egypt and the UAE. Exact
+    request paths are documented in the Geidea API reference; endpoint schemas are not modeled in the
+    OpenAPI in this repository.
 - aid: geidea:geidea-pay-by-invoice-api
   name: Geidea Pay by Invoice API
   tags:
@@ -158,10 +74,130 @@ apis:
     type: Documentation
   - url: https://docs.geidea.net/reference/create-payment-invoice
     type: APIReference
-  description: Create, update, fetch, delete, and send payment invoices (KSA) that
-    customers settle through a Geidea-hosted payment page. Exact request paths are
-    documented in the Geidea API reference; endpoint schemas are not modeled in the
-    OpenAPI in this repository.
+  description: >-
+    Create, update, fetch, delete, and send payment invoices (KSA) that customers settle through a Geidea-hosted
+    payment page. Exact request paths are documented in the Geidea API reference; endpoint schemas are
+    not modeled in the OpenAPI in this repository.
+- aid: geidea:geidea-checkout-api
+  name: Geidea Checkout API
+  description: Create a payment session for the hosted Geidea Checkout page.
+  humanURL: https://docs.geidea.net/docs/geidea-checkout-v2
+  baseURL: https://api.merchant.geidea.net
+  tags:
+  - Checkout
+  properties:
+  - type: OpenAPI
+    url: openapi/geidea-checkout-api-openapi.yml
+  - type: Documentation
+    url: https://docs.geidea.net/docs/geidea-checkout-v2
+  - type: APIReference
+    url: https://docs.geidea.net/reference/create-session-v2-1
+  - type: PostmanCollection
+    url: collections/geidea.postman_collection.json
+  - type: OpenCollection
+    url: collections/geidea.opencollection.json
+  - type: Documentation
+    url: https://docs.geidea.net/docs/pg-direct-api
+  - type: APIReference
+    url: https://docs.geidea.net/reference/pay-v-2
+  - type: Documentation
+    url: https://docs.geidea.net/docs/tokenization
+  - type: APIReference
+    url: https://docs.geidea.net/reference/retrieve-token-1
+  - type: Documentation
+    url: https://docs.geidea.net/docs/overview-1
+  - type: APIReference
+    url: https://docs.geidea.net/reference/refund-1-1
+- aid: geidea:geidea-direct-api-api
+  name: Geidea Direct API API
+  description: Server-to-server 3-D Secure authentication and card payment.
+  humanURL: https://docs.geidea.net/docs/geidea-checkout-v2
+  baseURL: https://api.merchant.geidea.net
+  tags:
+  - Direct API
+  properties:
+  - type: OpenAPI
+    url: openapi/geidea-direct-api-api-openapi.yml
+  - type: Documentation
+    url: https://docs.geidea.net/docs/geidea-checkout-v2
+  - type: APIReference
+    url: https://docs.geidea.net/reference/create-session-v2-1
+  - type: PostmanCollection
+    url: collections/geidea.postman_collection.json
+  - type: OpenCollection
+    url: collections/geidea.opencollection.json
+  - type: Documentation
+    url: https://docs.geidea.net/docs/pg-direct-api
+  - type: APIReference
+    url: https://docs.geidea.net/reference/pay-v-2
+  - type: Documentation
+    url: https://docs.geidea.net/docs/tokenization
+  - type: APIReference
+    url: https://docs.geidea.net/reference/retrieve-token-1
+  - type: Documentation
+    url: https://docs.geidea.net/docs/overview-1
+  - type: APIReference
+    url: https://docs.geidea.net/reference/refund-1-1
+- aid: geidea:geidea-tokenization-api
+  name: Geidea Tokenization API
+  description: Retrieve stored instrument tokens for cards on file.
+  humanURL: https://docs.geidea.net/docs/geidea-checkout-v2
+  baseURL: https://api.merchant.geidea.net
+  tags:
+  - Tokenization
+  properties:
+  - type: OpenAPI
+    url: openapi/geidea-tokenization-api-openapi.yml
+  - type: Documentation
+    url: https://docs.geidea.net/docs/geidea-checkout-v2
+  - type: APIReference
+    url: https://docs.geidea.net/reference/create-session-v2-1
+  - type: PostmanCollection
+    url: collections/geidea.postman_collection.json
+  - type: OpenCollection
+    url: collections/geidea.opencollection.json
+  - type: Documentation
+    url: https://docs.geidea.net/docs/pg-direct-api
+  - type: APIReference
+    url: https://docs.geidea.net/reference/pay-v-2
+  - type: Documentation
+    url: https://docs.geidea.net/docs/tokenization
+  - type: APIReference
+    url: https://docs.geidea.net/reference/retrieve-token-1
+  - type: Documentation
+    url: https://docs.geidea.net/docs/overview-1
+  - type: APIReference
+    url: https://docs.geidea.net/reference/refund-1-1
+- aid: geidea:geidea-transaction-management-api
+  name: Geidea Transaction Management API
+  description: Capture, void, refund, cancel, and fetch transactions and orders.
+  humanURL: https://docs.geidea.net/docs/geidea-checkout-v2
+  baseURL: https://api.merchant.geidea.net
+  tags:
+  - Transaction Management
+  properties:
+  - type: OpenAPI
+    url: openapi/geidea-transaction-management-api-openapi.yml
+  - type: Documentation
+    url: https://docs.geidea.net/docs/geidea-checkout-v2
+  - type: APIReference
+    url: https://docs.geidea.net/reference/create-session-v2-1
+  - type: PostmanCollection
+    url: collections/geidea.postman_collection.json
+  - type: OpenCollection
+    url: collections/geidea.opencollection.json
+  - type: Documentation
+    url: https://docs.geidea.net/docs/pg-direct-api
+  - type: APIReference
+    url: https://docs.geidea.net/reference/pay-v-2
+  - type: Documentation
+    url: https://docs.geidea.net/docs/tokenization
+  - type: APIReference
+    url: https://docs.geidea.net/reference/retrieve-token-1
+  - type: Documentation
+    url: https://docs.geidea.net/docs/overview-1
+  - type: APIReference
+    url: https://docs.geidea.net/reference/refund-1-1
 common:
 - type: AgenticAccess
   url: agentic-access/geidea-agentic-access.yml
