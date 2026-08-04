@@ -1,0 +1,22 @@
+{
+  "provider": "geidea",
+  "sources": [
+    "geidea-checkout-api-openapi.yml",
+    "geidea-direct-api-api-openapi.yml",
+    "geidea-tokenization-api-openapi.yml",
+    "geidea-transaction-management-api-openapi.yml"
+  ],
+  "outputs": [
+    "geidea-checkout-api-openapi.yml",
+    "geidea-direct-api-api-openapi.yml",
+    "geidea-tokenization-api-openapi.yml",
+    "geidea-transaction-management-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [
+    "geidea-direct-api-api-openapi.yml: dangling $ref: #/components/schemas/DirectResponse"
+  ],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
