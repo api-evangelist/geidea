@@ -39,7 +39,7 @@ tags:
 - Fintech
 created: '2026-07-12'
 modified: '2026-07-12'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: geidea:geidea-pay-by-link-api
   name: Geidea Pay by Link API
