@@ -1,0 +1,537 @@
+{
+  "item": [
+    {
+      "id": "a280a6d7-ba7d-4a5c-aedb-be18edb4ea25",
+      "name": "Direct API",
+      "description": {
+        "content": "Server-to-server 3-D Secure authentication and card payment.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "11cc20dd-0c26-44fc-b866-61de262d5f18",
+          "name": "Initiate Authentication",
+          "request": {
+            "name": "Initiate Authentication",
+            "description": {
+              "content": "Starts 3-D Secure authentication for a card within an existing session, returning the data needed to challenge or frictionlessly authenticate the payer.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pgw",
+                "api",
+                "v6",
+                "direct",
+                "authenticate",
+                "initiate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"<string>\",\n  \"cardOnFile\": \"<boolean>\",\n  \"orderId\": \"<string>\",\n  \"paymentMethod\": {\n    \"cardHolderName\": \"<string>\",\n    \"cardNumber\": \"<string>\",\n    \"expiryDate\": {\n      \"month\": \"<integer>\",\n      \"year\": \"<integer>\"\n    },\n    \"cvv\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c0b53c59-0041-46cc-ade8-04c1a745cbea",
+              "name": "Authentication initiation result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pgw",
+                    "api",
+                    "v6",
+                    "direct",
+                    "authenticate",
+                    "initiate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"cardOnFile\": \"<boolean>\",\n  \"orderId\": \"<string>\",\n  \"paymentMethod\": {\n    \"cardHolderName\": \"<string>\",\n    \"cardNumber\": \"<string>\",\n    \"expiryDate\": {\n      \"month\": \"<integer>\",\n      \"year\": \"<integer>\"\n    },\n    \"cvv\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25973f81-31c7-4b6e-a93d-f5e6caf1d489",
+              "name": "Missing or invalid credentials or signature.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pgw",
+                    "api",
+                    "v6",
+                    "direct",
+                    "authenticate",
+                    "initiate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"cardOnFile\": \"<boolean>\",\n  \"orderId\": \"<string>\",\n  \"paymentMethod\": {\n    \"cardHolderName\": \"<string>\",\n    \"cardNumber\": \"<string>\",\n    \"expiryDate\": {\n      \"month\": \"<integer>\",\n      \"year\": \"<integer>\"\n    },\n    \"cvv\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responseCode\": \"string\",\n  \"responseMessage\": \"string\",\n  \"detailedResponseCode\": \"string\",\n  \"detailedResponseMessage\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2a0b6f1-8093-4628-baf4-e2e99ad4f8a8",
+          "name": "Authenticate Payer",
+          "request": {
+            "name": "Authenticate Payer",
+            "description": {
+              "content": "Completes 3-D Secure payer authentication, returning a threeDSecureId that is passed to the Pay operation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pgw",
+                "api",
+                "v6",
+                "direct",
+                "authenticate",
+                "payer"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"<string>\",\n  \"threeDSecureId\": \"<string>\",\n  \"cardHolderResponseUrl\": \"<uri>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a4bbb33c-1bf4-442f-9e6f-3b8bae9b9e5e",
+              "name": "Payer authentication result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pgw",
+                    "api",
+                    "v6",
+                    "direct",
+                    "authenticate",
+                    "payer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"threeDSecureId\": \"<string>\",\n  \"cardHolderResponseUrl\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eeb90b8d-72e6-40bc-8f47-0467a4edb288",
+              "name": "Missing or invalid credentials or signature.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pgw",
+                    "api",
+                    "v6",
+                    "direct",
+                    "authenticate",
+                    "payer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"threeDSecureId\": \"<string>\",\n  \"cardHolderResponseUrl\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responseCode\": \"string\",\n  \"responseMessage\": \"string\",\n  \"detailedResponseCode\": \"string\",\n  \"detailedResponseMessage\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "733dc78b-5375-4a5d-a66d-a7859cf84716",
+          "name": "Pay",
+          "request": {
+            "name": "Pay",
+            "description": {
+              "content": "Processes a card payment against an authenticated session. Requires the sessionId, an orderId (GUID), the threeDSecureId from Authenticate Payer, and the payment method / card details.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pgw",
+                "api",
+                "v2",
+                "direct",
+                "pay"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"<string>\",\n  \"orderId\": \"<string>\",\n  \"threeDSecureId\": \"<string>\",\n  \"paymentMethod\": {\n    \"cardHolderName\": \"<string>\",\n    \"cardNumber\": \"<string>\",\n    \"expiryDate\": {\n      \"month\": \"<integer>\",\n      \"year\": \"<integer>\"\n    },\n    \"cvv\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7a15de6b-6f01-499a-a0cb-835e592cb89d",
+              "name": "Payment result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pgw",
+                    "api",
+                    "v2",
+                    "direct",
+                    "pay"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"orderId\": \"<string>\",\n  \"threeDSecureId\": \"<string>\",\n  \"paymentMethod\": {\n    \"cardHolderName\": \"<string>\",\n    \"cardNumber\": \"<string>\",\n    \"expiryDate\": {\n      \"month\": \"<integer>\",\n      \"year\": \"<integer>\"\n    },\n    \"cvv\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responseCode\": \"string\",\n  \"responseMessage\": \"string\",\n  \"order\": {\n    \"orderId\": \"string\",\n    \"status\": \"string\",\n    \"amount\": 3405.318516109582,\n    \"currency\": \"string\",\n    \"merchantReferenceId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "907a6740-5758-4fe7-aa5a-821d8dcdeebd",
+              "name": "Missing or invalid credentials or signature.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pgw",
+                    "api",
+                    "v2",
+                    "direct",
+                    "pay"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"orderId\": \"<string>\",\n  \"threeDSecureId\": \"<string>\",\n  \"paymentMethod\": {\n    \"cardHolderName\": \"<string>\",\n    \"cardNumber\": \"<string>\",\n    \"expiryDate\": {\n      \"month\": \"<integer>\",\n      \"year\": \"<integer>\"\n    },\n    \"cvv\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"responseCode\": \"string\",\n  \"responseMessage\": \"string\",\n  \"detailedResponseCode\": \"string\",\n  \"detailedResponseMessage\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ksamerchant.geidea.net",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "52cabf5e-ab6b-4bd5-95c3-4b9d52d8cef1",
+    "name": "Geidea Payment Gateway Checkout Direct API API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Geidea Payment Gateway API lets merchants across the MENA region accept card and wallet payments. Merchants that are not PCI-DSS compliant create a payment session and render the hosted Geidea Checkout (HPP) page; PCI-DSS compliant merchants use the server-to-server Direct API to run 3-D Secure authentication and payment themselves. This document models the confirmed, publicly documented endpoints for the session, Direct card flow, transaction management, and tokenization surfaces.\n\nAuthentication is HTTP Basic - the merchant Public Key is the username and the API Password is the password - and requests additionally carry an HMAC request `signature` computed with the API Password as the secret key. All Direct API calls must be made server-to-server; the API password must never be exposed in a front-end.\n\nNote on scope: request and response schemas below are representative models grounded in the Geidea API reference; field sets are illustrative and should be reconciled against the live documentation before production use. Pay by Link and Pay by Invoice are documented Geidea products but their request paths are not modeled here.\n\nContact Support:\n Name: Geidea",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Geidea Payment Gateway Checkout Tokenization API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tokenization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ksamerchant.geidea.net/pgw/api/v1/direct/token/:tokenId",
+            "params": [
+              {
+                "name": "tokenId",
+                "value": "",
+                "type": "path",
+                "description": "Token id of the stored instrument."
+              }
+            ]
+          },
+          "docs": "Retrieves a stored payment instrument (card on file) token by its id."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

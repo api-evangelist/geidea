@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Geidea Payment Gateway Checkout Direct API API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Direct API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Initiate Authentication",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ksamerchant.geidea.net/pgw/api/v6/direct/authenticate/initiate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Starts 3-D Secure authentication for a card within an existing session, returning the data needed to challenge or frictionlessly authenticate the payer."
+        },
+        {
+          "info": {
+            "name": "Authenticate Payer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ksamerchant.geidea.net/pgw/api/v6/direct/authenticate/payer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Completes 3-D Secure payer authentication, returning a threeDSecureId that is passed to the Pay operation."
+        },
+        {
+          "info": {
+            "name": "Pay",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ksamerchant.geidea.net/pgw/api/v2/direct/pay",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Processes a card payment against an authenticated session. Requires the sessionId, an orderId (GUID), the threeDSecureId from Authenticate Payer, and the payment method / card details."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

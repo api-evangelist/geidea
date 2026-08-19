@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Geidea Payment Gateway Checkout API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Checkout",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ksamerchant.geidea.net/payment-intent/api/v2/direct/session",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a payment session used to launch the hosted Geidea Checkout (HPP) page or to begin a Direct API flow. The request is signed with an HMAC signature generated from the merchant public key, amount, currency, merchant reference id, and a timestamp."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,104 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Geidea Payment Gateway Checkout Transaction Management API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transaction Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Capture Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ksamerchant.geidea.net/pgw/api/v1/direct/capture",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Captures a previously authorized (pre-authorised) transaction, in full or in part."
+        },
+        {
+          "info": {
+            "name": "Void Payment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ksamerchant.geidea.net/pgw/api/v3/direct/void",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Voids an authorization that has not yet been captured or settled."
+        },
+        {
+          "info": {
+            "name": "Refund - Full or Partial",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ksamerchant.geidea.net/pgw/api/v2/direct/refund",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Refunds a captured/settled transaction in full or in part. The request is signed with an HMAC signature."
+        },
+        {
+          "info": {
+            "name": "Cancel Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ksamerchant.geidea.net/pgw/api/v1/direct/cancel",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancels an order that has not completed payment."
+        },
+        {
+          "info": {
+            "name": "Fetch Transaction or Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ksamerchant.geidea.net/pgw/api/v1/direct/order/:orderId",
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "The Geidea order id."
+              }
+            ]
+          },
+          "docs": "Retrieves the full details and status of a transaction or order by its id."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
