@@ -12,6 +12,18 @@ description: Geidea is a Saudi-headquartered fintech and payments platform servi
   Pay, Meeza QR, and BNPL. Payments are authenticated with a merchant public key
   and API password over HTTP Basic auth plus an HMAC request signature, and
   results are delivered back to merchants via webhook (callback) notifications.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: enterprise
   onboarding: self-serve
