@@ -2,16 +2,14 @@ aid: geidea
 url: https://raw.githubusercontent.com/api-evangelist/geidea/refs/heads/main/apis.yml
 name: Geidea
 kind: company
-description: Geidea is a Saudi-headquartered fintech and payments platform serving
-  merchants across the MENA region (Saudi Arabia, Egypt, and the UAE). Its Payment
-  Gateway lets merchants accept card and wallet payments through a hosted Geidea
-  Checkout (HPP) page or a server-to-server Direct API for PCI-DSS-compliant
-  merchants, covering the full transaction lifecycle - create session, 3-D Secure
-  authentication, pay, capture, void, refund, cancel, tokenization, Pay by Link,
-  and Pay by Invoice - with support for mada, Visa, Mastercard, Apple Pay, Google
-  Pay, Meeza QR, and BNPL. Payments are authenticated with a merchant public key
-  and API password over HTTP Basic auth plus an HMAC request signature, and
-  results are delivered back to merchants via webhook (callback) notifications.
+description: Geidea is a Saudi-headquartered fintech and payments platform serving merchants across the
+  MENA region (Saudi Arabia, Egypt, and the UAE). Its Payment Gateway lets merchants accept card and wallet
+  payments through a hosted Geidea Checkout (HPP) page or a server-to-server Direct API for PCI-DSS-compliant
+  merchants, covering the full transaction lifecycle - create session, 3-D Secure authentication, pay,
+  capture, void, refund, cancel, tokenization, Pay by Link, and Pay by Invoice - with support for mada,
+  Visa, Mastercard, Apple Pay, Google Pay, Meeza QR, and BNPL. Payments are authenticated with a merchant
+  public key and API password over HTTP Basic auth plus an HMAC request signature, and results are delivered
+  back to merchants via webhook (callback) notifications.
 deliveryModel:
   model: saas
   open_source: false
@@ -62,7 +60,7 @@ tags_raw:
 - Checkout
 - Fintech
 created: '2026-07-12'
-modified: '2026-07-12'
+modified: '2026-09-16'
 specificationVersion: '0.23'
 apis:
 - aid: geidea:geidea-pay-by-link-api
@@ -79,11 +77,10 @@ apis:
     type: Documentation
   - url: https://docs.geidea.net/reference/create-payment-link
     type: APIReference
-  description: >-
-    Programmatically create, update, fetch, delete, and send (by email or SMS) shareable payment links
-    so customers can pay without a full storefront integration. Available for Egypt and the UAE. Exact
-    request paths are documented in the Geidea API reference; endpoint schemas are not modeled in the
-    OpenAPI in this repository.
+  description: Programmatically create, update, fetch, delete, and send (by email or SMS) shareable payment
+    links so customers can pay without a full storefront integration. Available for Egypt and the UAE.
+    Exact request paths are documented in the Geidea API reference; endpoint schemas are not modeled in
+    the OpenAPI in this repository.
 - aid: geidea:geidea-pay-by-invoice-api
   name: Geidea Pay by Invoice API
   tags:
@@ -98,10 +95,9 @@ apis:
     type: Documentation
   - url: https://docs.geidea.net/reference/create-payment-invoice
     type: APIReference
-  description: >-
-    Create, update, fetch, delete, and send payment invoices (KSA) that customers settle through a Geidea-hosted
-    payment page. Exact request paths are documented in the Geidea API reference; endpoint schemas are
-    not modeled in the OpenAPI in this repository.
+  description: Create, update, fetch, delete, and send payment invoices (KSA) that customers settle through
+    a Geidea-hosted payment page. Exact request paths are documented in the Geidea API reference; endpoint
+    schemas are not modeled in the OpenAPI in this repository.
 - aid: geidea:geidea-checkout-api
   name: Geidea Checkout API
   description: Create a payment session for the hosted Geidea Checkout page.
@@ -133,7 +129,7 @@ apis:
   - type: APIReference
     url: https://docs.geidea.net/reference/refund-1-1
 - aid: geidea:geidea-direct-api-api
-  name: Geidea Direct API API
+  name: Geidea Direct API
   description: Server-to-server 3-D Secure authentication and card payment.
   humanURL: https://docs.geidea.net/docs/geidea-checkout-v2
   baseURL: https://api.merchant.geidea.net
