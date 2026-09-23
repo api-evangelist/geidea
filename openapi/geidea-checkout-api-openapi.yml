@@ -1,13 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Geidea Payment Gateway Checkout API
-  description: 'The Geidea Payment Gateway API lets merchants across the MENA region accept card and wallet payments. Merchants that are not PCI-DSS compliant create a payment session and render the hosted Geidea Checkout (HPP) page; PCI-DSS compliant merchants use the server-to-server Direct API to run 3-D Secure authentication and payment themselves. This document models the confirmed, publicly documented endpoints for the session, Direct card flow, transaction management, and tokenization surfaces.
-
-
-    Authentication is HTTP Basic - the merchant Public Key is the username and the API Password is the password - and requests additionally carry an HMAC request `signature` computed with the API Password as the secret key. All Direct API calls must be made server-to-server; the API password must never be exposed in a front-end.
-
-
-    Note on scope: request and response schemas below are representative models grounded in the Geidea API reference; field sets are illustrative and should be reconciled against the live documentation before production use. Pay by Link and Pay by Invoice are documented Geidea products but their request paths are not modeled here.'
+  description: The Geidea Payment Gateway API lets merchants across the MENA region accept card and wallet payments.
   version: '1.0'
   contact:
     name: Geidea
@@ -49,39 +43,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid credentials or signature.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    SessionResponse:
-      type: object
-      properties:
-        responseCode:
-          type: string
-        responseMessage:
-          type: string
-        session:
-          type: object
-          properties:
-            id:
-              type: string
-            expiryDate:
-              type: string
-    Error:
-      type: object
-      properties:
-        responseCode:
-          type: string
-        responseMessage:
-          type: string
-        detailedResponseCode:
-          type: string
-        detailedResponseMessage:
-          type: string
     CreateSessionRequest:
       type: object
       required:
@@ -118,6 +80,38 @@ components:
           - Authorize
           - Preauthorize
           example: Pay
+    SessionResponse:
+      type: object
+      properties:
+        responseCode:
+          type: string
+        responseMessage:
+          type: string
+        session:
+          type: object
+          properties:
+            id:
+              type: string
+            expiryDate:
+              type: string
+    Error:
+      type: object
+      properties:
+        responseCode:
+          type: string
+        responseMessage:
+          type: string
+        detailedResponseCode:
+          type: string
+        detailedResponseMessage:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid credentials or signature.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     basicAuth:
       type: http

@@ -1,10 +1,7 @@
 {
   "provider": "geidea",
   "sources": [
-    "geidea-checkout-api-openapi.yml",
-    "geidea-direct-api-api-openapi.yml",
-    "geidea-tokenization-api-openapi.yml",
-    "geidea-transaction-management-api-openapi.yml"
+    "_original/geidea-openapi.yml"
   ],
   "outputs": [
     "geidea-checkout-api-openapi.yml",
@@ -14,9 +11,18 @@
   ],
   "archived": [],
   "errors": [
-    "geidea-direct-api-api-openapi.yml: dangling $ref: #/components/schemas/DirectResponse"
+    "geidea-openapi.yml: dangling $ref: #/components/schemas/DirectResponse"
   ],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "geidea-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "geidea-checkout-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "geidea-direct-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "geidea-tokenization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "geidea-transaction-management-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
