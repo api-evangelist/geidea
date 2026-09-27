@@ -44,6 +44,31 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        responseCode:
+          type: string
+        responseMessage:
+          type: string
+        detailedResponseCode:
+          type: string
+        detailedResponseMessage:
+          type: string
+    SessionResponse:
+      type: object
+      properties:
+        responseCode:
+          type: string
+        responseMessage:
+          type: string
+        session:
+          type: object
+          properties:
+            id:
+              type: string
+            expiryDate:
+              type: string
     CreateSessionRequest:
       type: object
       required:
@@ -80,31 +105,6 @@ components:
           - Authorize
           - Preauthorize
           example: Pay
-    SessionResponse:
-      type: object
-      properties:
-        responseCode:
-          type: string
-        responseMessage:
-          type: string
-        session:
-          type: object
-          properties:
-            id:
-              type: string
-            expiryDate:
-              type: string
-    Error:
-      type: object
-      properties:
-        responseCode:
-          type: string
-        responseMessage:
-          type: string
-        detailedResponseCode:
-          type: string
-        detailedResponseMessage:
-          type: string
   responses:
     Unauthorized:
       description: Missing or invalid credentials or signature.

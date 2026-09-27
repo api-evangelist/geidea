@@ -88,6 +88,19 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    AuthenticatePayerRequest:
+      type: object
+      required:
+      - sessionId
+      - threeDSecureId
+      properties:
+        sessionId:
+          type: string
+        threeDSecureId:
+          type: string
+        cardHolderResponseUrl:
+          type: string
+          format: uri
     OrderResponse:
       type: object
       properties:
@@ -109,6 +122,17 @@ components:
               type: string
             merchantReferenceId:
               type: string
+    Error:
+      type: object
+      properties:
+        responseCode:
+          type: string
+        responseMessage:
+          type: string
+        detailedResponseCode:
+          type: string
+        detailedResponseMessage:
+          type: string
     InitiateAuthenticationRequest:
       type: object
       required:
@@ -123,30 +147,6 @@ components:
           $ref: '#/components/schemas/PaymentMethod'
         cardOnFile:
           type: boolean
-    AuthenticatePayerRequest:
-      type: object
-      required:
-      - sessionId
-      - threeDSecureId
-      properties:
-        sessionId:
-          type: string
-        threeDSecureId:
-          type: string
-        cardHolderResponseUrl:
-          type: string
-          format: uri
-    Error:
-      type: object
-      properties:
-        responseCode:
-          type: string
-        responseMessage:
-          type: string
-        detailedResponseCode:
-          type: string
-        detailedResponseMessage:
-          type: string
     PaymentMethod:
       type: object
       properties:

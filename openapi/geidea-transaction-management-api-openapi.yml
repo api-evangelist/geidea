@@ -134,6 +134,19 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid credentials or signature.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     OrderResponse:
       type: object
@@ -156,6 +169,17 @@ components:
               type: string
             merchantReferenceId:
               type: string
+    Error:
+      type: object
+      properties:
+        responseCode:
+          type: string
+        responseMessage:
+          type: string
+        detailedResponseCode:
+          type: string
+        detailedResponseMessage:
+          type: string
     AmountOperationRequest:
       type: object
       required:
@@ -173,17 +197,6 @@ components:
           description: HMAC-SHA256 signature (Base64) for the operation.
         reason:
           type: string
-    Error:
-      type: object
-      properties:
-        responseCode:
-          type: string
-        responseMessage:
-          type: string
-        detailedResponseCode:
-          type: string
-        detailedResponseMessage:
-          type: string
     OrderReferenceRequest:
       type: object
       required:
@@ -193,19 +206,6 @@ components:
           type: string
         reason:
           type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid credentials or signature.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     basicAuth:
       type: http
