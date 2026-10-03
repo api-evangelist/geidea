@@ -88,19 +88,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    AuthenticatePayerRequest:
-      type: object
-      required:
-      - sessionId
-      - threeDSecureId
-      properties:
-        sessionId:
-          type: string
-        threeDSecureId:
-          type: string
-        cardHolderResponseUrl:
-          type: string
-          format: uri
     OrderResponse:
       type: object
       properties:
@@ -122,31 +109,19 @@ components:
               type: string
             merchantReferenceId:
               type: string
-    Error:
-      type: object
-      properties:
-        responseCode:
-          type: string
-        responseMessage:
-          type: string
-        detailedResponseCode:
-          type: string
-        detailedResponseMessage:
-          type: string
-    InitiateAuthenticationRequest:
+    AuthenticatePayerRequest:
       type: object
       required:
       - sessionId
-      - cardOnFile
+      - threeDSecureId
       properties:
         sessionId:
           type: string
-        orderId:
+        threeDSecureId:
           type: string
-        paymentMethod:
-          $ref: '#/components/schemas/PaymentMethod'
-        cardOnFile:
-          type: boolean
+        cardHolderResponseUrl:
+          type: string
+          format: uri
     PaymentMethod:
       type: object
       properties:
@@ -163,6 +138,17 @@ components:
               type: integer
         cvv:
           type: string
+    Error:
+      type: object
+      properties:
+        responseCode:
+          type: string
+        responseMessage:
+          type: string
+        detailedResponseCode:
+          type: string
+        detailedResponseMessage:
+          type: string
     PayRequest:
       type: object
       required:
@@ -178,6 +164,20 @@ components:
           type: string
         paymentMethod:
           $ref: '#/components/schemas/PaymentMethod'
+    InitiateAuthenticationRequest:
+      type: object
+      required:
+      - sessionId
+      - cardOnFile
+      properties:
+        sessionId:
+          type: string
+        orderId:
+          type: string
+        paymentMethod:
+          $ref: '#/components/schemas/PaymentMethod'
+        cardOnFile:
+          type: boolean
   responses:
     Unauthorized:
       description: Missing or invalid credentials or signature.
