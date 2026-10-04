@@ -156,17 +156,6 @@ components:
               type: string
             merchantReferenceId:
               type: string
-    Error:
-      type: object
-      properties:
-        responseCode:
-          type: string
-        responseMessage:
-          type: string
-        detailedResponseCode:
-          type: string
-        detailedResponseMessage:
-          type: string
     AmountOperationRequest:
       type: object
       required:
@@ -183,6 +172,17 @@ components:
           type: string
           description: HMAC-SHA256 signature (Base64) for the operation.
         reason:
+          type: string
+    Error:
+      type: object
+      properties:
+        responseCode:
+          type: string
+        responseMessage:
+          type: string
+        detailedResponseCode:
+          type: string
+        detailedResponseMessage:
           type: string
     OrderReferenceRequest:
       type: object

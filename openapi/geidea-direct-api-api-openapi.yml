@@ -109,19 +109,6 @@ components:
               type: string
             merchantReferenceId:
               type: string
-    AuthenticatePayerRequest:
-      type: object
-      required:
-      - sessionId
-      - threeDSecureId
-      properties:
-        sessionId:
-          type: string
-        threeDSecureId:
-          type: string
-        cardHolderResponseUrl:
-          type: string
-          format: uri
     PaymentMethod:
       type: object
       properties:
@@ -138,6 +125,19 @@ components:
               type: integer
         cvv:
           type: string
+    AuthenticatePayerRequest:
+      type: object
+      required:
+      - sessionId
+      - threeDSecureId
+      properties:
+        sessionId:
+          type: string
+        threeDSecureId:
+          type: string
+        cardHolderResponseUrl:
+          type: string
+          format: uri
     Error:
       type: object
       properties:
