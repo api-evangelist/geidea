@@ -1,21 +1,19 @@
-# Kin Score artifact — geidea — 2026-08-29T230545
+# Kin Score artifact — geidea — 2026-09-23T000603
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: geidea
-  schema_version: 0.16.0
-  scored_at: '2026-08-29'
-  run_ts: 2026-08-29T230545
-  composite: 33.8
+  schema_version: 0.22.0
+  scored_at: '2026-09-23'
+  run_ts: 2026-09-23T000603
+  composite: 31.8
   band: thin
   facets:
-    discoverability: 74.1
+    discoverability: 68.5
     contract_quality: 56.3
-    governance: 0.0
-    operational_transparency: 23.7
-    developer_ergonomics: 27.4
-    commercial_clarity: 28.9
     contract_governance: 0.0
+    operational_transparency: 23.7
+    developer_ergonomics: 23.8
     access_clarity: 28.9
   agent_readiness:
     score: 21.5
