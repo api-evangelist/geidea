@@ -88,6 +88,62 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    PaymentMethod:
+      type: object
+      properties:
+        cardHolderName:
+          type: string
+        cardNumber:
+          type: string
+        expiryDate:
+          type: object
+          properties:
+            month:
+              type: integer
+            year:
+              type: integer
+        cvv:
+          type: string
+    PayRequest:
+      type: object
+      required:
+      - sessionId
+      - orderId
+      properties:
+        sessionId:
+          type: string
+        orderId:
+          type: string
+          description: Unique order identifier (GUID).
+        threeDSecureId:
+          type: string
+        paymentMethod:
+          $ref: '#/components/schemas/PaymentMethod'
+    Error:
+      type: object
+      properties:
+        responseCode:
+          type: string
+        responseMessage:
+          type: string
+        detailedResponseCode:
+          type: string
+        detailedResponseMessage:
+          type: string
+    InitiateAuthenticationRequest:
+      type: object
+      required:
+      - sessionId
+      - cardOnFile
+      properties:
+        sessionId:
+          type: string
+        orderId:
+          type: string
+        paymentMethod:
+          $ref: '#/components/schemas/PaymentMethod'
+        cardOnFile:
+          type: boolean
     OrderResponse:
       type: object
       properties:
@@ -109,22 +165,6 @@ components:
               type: string
             merchantReferenceId:
               type: string
-    PaymentMethod:
-      type: object
-      properties:
-        cardHolderName:
-          type: string
-        cardNumber:
-          type: string
-        expiryDate:
-          type: object
-          properties:
-            month:
-              type: integer
-            year:
-              type: integer
-        cvv:
-          type: string
     AuthenticatePayerRequest:
       type: object
       required:
@@ -138,46 +178,6 @@ components:
         cardHolderResponseUrl:
           type: string
           format: uri
-    Error:
-      type: object
-      properties:
-        responseCode:
-          type: string
-        responseMessage:
-          type: string
-        detailedResponseCode:
-          type: string
-        detailedResponseMessage:
-          type: string
-    PayRequest:
-      type: object
-      required:
-      - sessionId
-      - orderId
-      properties:
-        sessionId:
-          type: string
-        orderId:
-          type: string
-          description: Unique order identifier (GUID).
-        threeDSecureId:
-          type: string
-        paymentMethod:
-          $ref: '#/components/schemas/PaymentMethod'
-    InitiateAuthenticationRequest:
-      type: object
-      required:
-      - sessionId
-      - cardOnFile
-      properties:
-        sessionId:
-          type: string
-        orderId:
-          type: string
-        paymentMethod:
-          $ref: '#/components/schemas/PaymentMethod'
-        cardOnFile:
-          type: boolean
   responses:
     Unauthorized:
       description: Missing or invalid credentials or signature.

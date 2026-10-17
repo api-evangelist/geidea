@@ -135,6 +135,17 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        responseCode:
+          type: string
+        responseMessage:
+          type: string
+        detailedResponseCode:
+          type: string
+        detailedResponseMessage:
+          type: string
     OrderResponse:
       type: object
       properties:
@@ -156,6 +167,15 @@ components:
               type: string
             merchantReferenceId:
               type: string
+    OrderReferenceRequest:
+      type: object
+      required:
+      - orderId
+      properties:
+        orderId:
+          type: string
+        reason:
+          type: string
     AmountOperationRequest:
       type: object
       required:
@@ -171,26 +191,6 @@ components:
         signature:
           type: string
           description: HMAC-SHA256 signature (Base64) for the operation.
-        reason:
-          type: string
-    Error:
-      type: object
-      properties:
-        responseCode:
-          type: string
-        responseMessage:
-          type: string
-        detailedResponseCode:
-          type: string
-        detailedResponseMessage:
-          type: string
-    OrderReferenceRequest:
-      type: object
-      required:
-      - orderId
-      properties:
-        orderId:
-          type: string
         reason:
           type: string
   responses:
